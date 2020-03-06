@@ -1,0 +1,5 @@
+[
+  "test_solver.py::test_solve_word_jumble_1",
+  "test_solver.py::test_solve_word_jumble_2",
+  "test_solver.py::test_solve_word_jumble_3"
+]
