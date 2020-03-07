@@ -1,5 +1,0 @@
-{
-  "test_solver.py::test_solve_word_jumble_1": true,
-  "test_solver.py::test_solve_word_jumble_2": true,
-  "test_solver.py::test_solve_word_jumble_3": true
-}

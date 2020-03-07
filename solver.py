@@ -1,4 +1,3 @@
-from jumble_map import build_map
 import json
 
 class JumbleSolver:
@@ -13,15 +12,17 @@ class JumbleSolver:
         try:
             file = open('jumble_table.txt', 'r')
             self.map = json.loads(file)
+            file.close()
         except:
             if self.pool == None: # if no specific word pool, we pull from local dictionary
                 with open('/usr/share/dict/words', 'r') as words:
                     self.pool = words.read().lower().split()
 
             self.map = self._build_map(self.pool)
-            print(self.map)
             with open('jumble_table.txt', 'w') as file:
-                file.write(json.dumps(self.map))
+                json.dump(self.map, file)
+
+        print("MAP SIZE " + str(len(self.map)))
 
         circle_indexes = [] # gets a list of list of indexes which the circles are
         for circle_arry in self.circles:
@@ -45,9 +46,29 @@ class JumbleSolver:
         return map
 
     def _solve(self, word):
-        sorted_word = ''.join(sorted(word))
-        solution = self.map[sorted_word]
-        return solution
+        sorted_word = ''.join(sorted(word)).lower()
+        print(sorted_word)
+        return self.map[sorted_word]
+        # if word in self.map:
+        #     return self.map[sorted_word]
+        # else:
+        #     return "No Solution"
 
-if __name__ == 'main':
-    pass
+if __name__ == "__main__":
+    # Cartoon prompt for final jumble:
+    # "Farley rolled on the barn floor because of his __-______."
+    letters = ['TEFON', 'SOKIK', 'NIUMEM', 'SICONU']
+    circles = ['__O_O', 'OO_O_', '____O_', '___OO_']
+    final = ['OO', 'OOOOOO']
+    print(JumbleSolver(letters, circles, final)._start())
+    # Cartoon prompt for final jumble: "What a dog house is: A ____ ___."
+    letters = ['TARFD', 'JOBUM', 'TENJUK', 'LETHEM']
+    circles = ['____O', '_OO__', '_O___O', 'O____O']
+    final = ['OOOO', 'OOO']
+    print(JumbleSolver(letters, circles, final)._start())
+    # Cartoon prompt for final jumble:
+    # "A bad way for a lawyer to learn the criminal justice system: _____ and _____."
+    letters = ['LAISA', 'LAURR', 'BUREEK', 'PROUOT']
+    circles = ['_OOO_', 'O_O__', 'OO____', '__O_OO']
+    final = ['OOOOO', 'OOOOO']
+    print(JumbleSolver(letters, circles, final)._start())
